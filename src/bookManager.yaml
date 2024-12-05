@@ -61,6 +61,56 @@ paths:
         '200':
           description: ok
 
+  /authors:
+    get:
+      operationId: getAuthors
+      parameters:
+        - in: query
+          name: authorName
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: ok
+    post:
+      operationId: addAuthor
+      requestBody:
+        required: true
+        content:
+          /application/json:
+            schema:
+              $ref: "#/components/schemas/author"
+      responses:
+        '200':
+          description: ok
+    delete:
+      description: delete a author by id
+      parameters:
+        - in: query
+          required: true
+          name: authorId
+          schema:
+            type: string
+      responses:
+        '200':
+          description: deleted
+    put:
+      description: update a author
+      parameters:
+        - in : path
+          required: true
+          name: authorID
+          schema:
+            type: string
+      requestBody:
+        content:
+          /application/json:
+            schema:
+              $ref: "#/components/schemas/author"
+      responses:
+        '200':
+          description: ok
 
 components: 
   schemas:
