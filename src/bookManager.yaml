@@ -6,7 +6,7 @@ info:
 servers:
   - url: 'https'
 paths:
-  /books :
+  /books:
     get:
       operationId: getBooks
       parameters:
@@ -29,43 +29,74 @@ paths:
         content:
           /application/json:
             schema:
+              $ref: "#/components/schemas/book"
+      responses:
+        '200':
+          description: ok
+    delete:
+      description: delete a book by id
+      parameters:
+        - in: query
+          required: true
+          name: bookId
+          schema:
+            type: string
+      responses:
+        '200':
+          description: deleted
+    put:
+      description: update a book
+      parameters:
+        - in : path
+          required: true
+          name: bookID
+          schema:
+            type: string
+      requestBody:
+        content:
+          /application/json:
+            schema:
+             $ref: "#/components/schemas/book"
+      responses:
+        '200':
+          description: ok
 
 
-components:
-    schemas:
-      book:
-        type: object
-        properties:
-          id:
-            type: string
-          name:
-            type: string
-          author:
-            type: string
-          releaseDate:
-            type: string
-            format: date
-          pageNumbers:
-            type: number
-          topic:
-            type: string
-            enum:
-              - ROMANCE
-              - COMEDY
-              - OTHER
+components: 
+  schemas:
+    book:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        author:
+          type: string
+        releaseDate:
+          type: string
+          format: date
+        pageNumbers:
+          type: number
+        topic:
+          type: string
+          enum:
+            - ROMANCE
+            - COMEDY
+            - OTHER
 
-      author:
-        type: object
-        properties:
-          id:
-            type: string
-          name:
-            type: string
-          sex:
-            type: string
-            enum:
-              - Male
-              - Female
-          birthdate:
-            type: string
-            format: date
+    author:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        sex:
+          type: string
+          enum:
+            - Male
+            - Female
+        birthdate:
+          type: string
+          format: date
