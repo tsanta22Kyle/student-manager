@@ -1,0 +1,24 @@
+openapi: 3.0.3
+info:
+  title: bookManager APi
+  description: bookManager APi
+  version: 1.0.0
+servers:
+  - url: 'https'
+paths:
+  /books :
+    get:
+      operationId: getBooks
+      parameters:
+        - in: query
+          name: bookName
+          schema:
+            type: string
+        - in: query
+          name: releaseDate
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ok
+  
