@@ -54,6 +54,40 @@ paths:
       responses:
         "200":
           description: deleted
+  /students:
+    get:
+      operationId: getStudents
+      parameters:
+        - in : query
+          name: studentName
+          description: sort by studentName
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    put:
+      responses:
+        '200':
+          description: OK
+    delete:
+      parameters:
+        - in : query
+          name: id
+          schema:
+            type: string
+      responses:
+        '200':
+          description: deleted
+    post:
+      requestBody:
+        content:
+          /application/json:
+            schema:
+              $ref: "#/components/schemas/student"
+      responses:
+        '200':
+          description: ok
 
 components:
   schemas:
