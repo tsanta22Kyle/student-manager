@@ -18,7 +18,54 @@ paths:
           name: releaseDate
           schema:
             type: string
+            format: date
       responses:
         '200':
           description: ok
-  
+    post:
+      operationId: addABook
+      requestBody:
+        required: true
+        content:
+          /application/json:
+            schema:
+
+
+components:
+    schemas:
+      book:
+        type: object
+        properties:
+          id:
+            type: string
+          name:
+            type: string
+          author:
+            type: string
+          releaseDate:
+            type: string
+            format: date
+          pageNumbers:
+            type: number
+          topic:
+            type: string
+            enum:
+              - ROMANCE
+              - COMEDY
+              - OTHER
+
+      author:
+        type: object
+        properties:
+          id:
+            type: string
+          name:
+            type: string
+          sex:
+            type: string
+            enum:
+              - Male
+              - Female
+          birthdate:
+            type: string
+            format: date
