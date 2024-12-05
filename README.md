@@ -1,2 +1,2 @@
 ﻿# student-manager
-### specifications are in /src
+### specifications are in `` /src ``
