@@ -1,9 +1,43 @@
 openapi: 3.0.3
 info:
-  title: $Title$
-  description: $Title$
+  title: Title
+  description: Title
   version: 1.0.0
 servers:
-  - url: '$https$'
+  - url: 'https'
 paths:
-  $END$
+
+
+components:
+  schemas:
+    group:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        year:
+          type: string
+          format: date
+        studentNumber:
+          type: number
+    student:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        sex:
+          type: string
+          enum:
+            - Male
+            - Female
+        birthdate:
+          type: string
+          format: date
+        reference:
+          type: string
+        group:
+          type: string
