@@ -1,7 +1,7 @@
 openapi: 3.0.2
 info:
   title: studentManager API
-  version: "1.0"
+  version: "1.1"
 servers:
   - url: https://virtserver.swaggerhub.com/TsantaniainakyleRAKOTOARISON/studentmanager/1.0
     description: SwaggerHub API Auto Mocking
