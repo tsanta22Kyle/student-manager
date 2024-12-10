@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: bookManager APi
   description: bookManager APi
-  version: 1.0.0
+  version: 1.1.0
 servers:
   - url: 'https'
 paths:
@@ -19,6 +19,16 @@ paths:
           schema:
             type: string
             format: date
+        - in: query
+          name: page
+          schema:
+            type: number
+            default: 1
+        - in: query
+          name: size
+          schema:
+            type: number
+            default: 50
       responses:
         '200':
           description: ok
@@ -56,10 +66,17 @@ paths:
         content:
           /application/json:
             schema:
-             $ref: "#/components/schemas/book"
+              allOf:
+                - $ref: "#/components/schemas/CrupdateBook"
       responses:
         '200':
           description: ok
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/CrupdateBook"
+
 
   /authors:
     get:
@@ -69,7 +86,16 @@ paths:
           name: authorName
           schema:
             type: string
-
+        - in: path
+          name: pageNumber
+          schema:
+            type: number
+            default: 1
+        - in: path
+          name: pageSize
+          schema:
+            type: number
+            default: 50
       responses:
         '200':
           description: ok
@@ -112,6 +138,43 @@ paths:
         '200':
           description: ok
 
+  /books/{bookID}/authors/{authorID}:
+    put:
+      parameters:
+        - in: path
+          name: bookID
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: authorID
+          required: true
+          schema:
+            type: string
+      description: update book's author
+      responses:
+        '200':
+          description: updated
+  /books/authors:
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                allOf:
+                  - $ref: "#/components/schemas/CrupdateBook"
+                  - $ref: "#/components/schemas/author"
+                  - type: object
+                    properties:
+                      id:
+                        type: string
+                      authorID:
+                        type: string
+      responses:
+        '200':
+          description: ok
 components: 
   schemas:
     book:
@@ -138,7 +201,7 @@ components:
     author:
       type: object
       properties:
-        id:
+        authorID:
           type: string
         name:
           type: string
@@ -148,5 +211,23 @@ components:
             - Male
             - Female
         birthdate:
+          type: string
+          format: date
+    CrupdateBook:
+      type: object
+      properties:
+        id:
+          type: string
+        bookName:
+          type: string
+        pageNumber:
+          type: number
+        topic:
+          type: string
+          enum:
+            - romance
+            - comedy
+            - other
+        releaseDate:
           type: string
           format: date
