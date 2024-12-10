@@ -19,6 +19,16 @@ paths:
           schema:
             type: string
             format: date
+        - in: query
+          name: page
+          schema:
+            type: number
+            default: 1
+        - in: query
+          name: size
+          schema:
+            type: number
+            default: 50
       responses:
         '200':
           description: ok
@@ -76,7 +86,16 @@ paths:
           name: authorName
           schema:
             type: string
-
+        - in: path
+          name: pageNumber
+          schema:
+            type: number
+            default: 1
+        - in: path
+          name: pageSize
+          schema:
+            type: number
+            default: 50
       responses:
         '200':
           description: ok
