@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: bookManager APi
   description: bookManager APi
-  version: 1.1.0
+  version: 1.2.0
 servers:
   - url: 'https'
 paths:
@@ -19,16 +19,9 @@ paths:
           schema:
             type: string
             format: date
-        - in: query
-          name: page
-          schema:
-            type: number
-            default: 1
-        - in: query
-          name: size
-          schema:
-            type: number
-            default: 50
+        - $ref: "#/components/parameters/queryPagination"
+        - $ref: "#/components/parameters/pathPagination"
+
       responses:
         '200':
           description: ok
@@ -76,6 +69,27 @@ paths:
               schema:
                 allOf:
                   - $ref: "#/components/schemas/CrupdateBook"
+  /books/import:
+    post:
+      requestBody:
+        required: false
+        content:
+          /application/json:
+            schema:
+              type: array
+              items:
+                allOf:
+                  - $ref: "#/components/schemas/book"
+      responses:
+        '200':
+          description: return a list of books
+          content:
+            /application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: "#/components/schemas/book"
 
 
   /authors:
@@ -86,16 +100,8 @@ paths:
           name: authorName
           schema:
             type: string
-        - in: path
-          name: pageNumber
-          schema:
-            type: number
-            default: 1
-        - in: path
-          name: pageSize
-          schema:
-            type: number
-            default: 50
+        - $ref: "#/components/parameters/pathPagination"
+        - $ref: "#/components/parameters/queryPagination"
       responses:
         '200':
           description: ok
@@ -137,6 +143,33 @@ paths:
       responses:
         '200':
           description: ok
+
+  /authors/import:
+    post:
+      description: import list of authors
+      requestBody:
+        required: false
+        content:
+          /application/json:
+            schema:
+             oneOf:
+               - $ref: "#/components/schemas/importAuthor"
+          /application/vnd.ms-excel:
+             schema:
+               oneOf:
+                 - $ref: "#/components/schemas/importAuthor"
+
+      responses:
+        '200':
+          description: ok
+          content:
+            /application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: "#/components/schemas/author"
+
 
   /books/{bookID}/authors/{authorID}:
     put:
@@ -231,3 +264,66 @@ components:
         releaseDate:
           type: string
           format: date
+    importAuthor:
+      type: object
+      properties:
+        authorName:
+          type: string
+        sex:
+          type: string
+          enum:
+            - male
+            - female
+    importBook:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/book"
+        - properties:
+            idAuthor:
+              type: string
+  parameters:
+    queryPagination:
+      in : query
+      required: false
+      name: pagination
+      schema:
+         type: object
+         properties:
+           page:
+            type: number
+            default: 1
+           size:
+             type: number
+             default: 50
+    pathPagination:
+      in: path
+      required: false
+      name: pagination
+      schema:
+        type: object
+        properties:
+          page:
+            type: number
+            default: 1
+          size:
+            type: number
+            default: 50
+  responses:
+    responseStructure:
+      content:
+        status:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                maxLength: 3
+                minLength: 3
+              message:
+                type: string
+        body:
+          schema:
+           type: object
+
+
+
